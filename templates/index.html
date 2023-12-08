@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/images/icon.svg" type="image/x-icon">
+    <title>Аптека</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="label_page">
+                Главное меню
+            </div>
+            <div class="container-centered">
+                <div class="mytable">
+                    <table>
+                        <tbody>
+                            {% if session['is_auth'] %}
+                            {% if session['role'] == 'pharmacist' or session['role'] == 'merchandiser' or
+                            session['role'] == 'manager' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.queries_index') }}" method="GET">
+                                        <input type="submit" value="Выполнение запроса">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if session['role'] == 'manager' or session['role'] == 'director' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('reports_app.reports_index') }}" method="GET">
+                                        <input type="submit" value="Работа с отчетами">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if session['role'] == 'external' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('basket_app.basket_index') }}" method="GET">
+                                        <input type="submit" value="Ассортимент">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('access_app.logout_handler') }}" method="GET">
+                                        <input type="submit" value="Выход">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if not session['is_auth'] %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('access_app.access_index') }}" method="GET">
+                                        <input type="submit" value="Авторизация">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="message">
+                {% if category == 'okay' %}
+                <div class="okay">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% if category == 'error' %}
+                <div class="error">
+                    {{ message }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </main>
+
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/js/pageEventHandlers.js"></script>
+
+</html>

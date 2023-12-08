@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/images/icon.svg" type="image/x-icon">
+    <title>Ассортимент</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="label_page">
+                Ассортимент
+            </div>
+            <div class="container-centered">
+                <div class="mytable-for-results">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class='no-padding' colspan="6">
+                                    <input type="text" id="search" placeholder="Поиск по названию препарата"
+                                        autocomplete="off">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Препарат</th>
+                                <th>Производитель</th>
+                                <th>Цена</th>
+                                <th>Доступно на складе</th>
+                                <th>Количество</th>
+                                <th>Добавление</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in result %}
+                            <tr>
+                                <td>
+                                    {{ row['med_name'] }}
+                                </td>
+                                <td>
+                                    {{ row['med_company'] }}
+                                </td>
+                                <td>
+                                    {{ row['cost'] }}₽
+                                </td>
+                                <td>
+                                    {{ row['amount'] }} шт.
+                                </td>
+                                <form action="{{ url_for('basket_app.basket_index') }}" method="POST">
+                                    <td class="no-padding">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ row['amount' ]}}"
+                                            autocomplete="off" required>
+                                    </td>
+                                    <td class="no-padding">
+                                        <input type="hidden" name="med_ID" value="{{ row['med_ID'] }}">
+                                        <input type="hidden" name="med_name" value="{{ row['med_name'] }}">
+                                        <input type="hidden" name="med_company" value="{{ row['med_company'] }}">
+                                        <input type="hidden" name="cost" value="{{ row['cost'] }}">
+                                        <input type="submit" value="Добавить">
+                                    </td>
+                                </form>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('basket_app.show_basket_handler') }}">
+                                        <input type="submit" value="Перейти в корзину ({{ count }})">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="/">
+                                        <input type="submit" value="На главную">
+                                    </form>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="message">
+                {% if category == 'okay' %}
+                <div class="okay">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% if category == 'error' %}
+                <div class="error">
+                    {{ message }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </main>
+
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/js/pageEventHandlers.js"></script>
+
+</html>

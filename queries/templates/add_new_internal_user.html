@@ -1,0 +1,33 @@
+{% extends "base_for_search.html" %}
+{% block title %}Добавление пользователей{% endblock %}
+{% block name_of_search %}Добавление внутренних пользователей{% endblock %}
+
+{% block form %}
+<form action="{{ url_for('queries_app.add_new_internal_user') }}" method="POST">
+    <tr>
+        <td class="no-padding">
+            <input list="logins" type="login" name="username" placeholder="Логин" autocomplete="off" pattern="[A-Za-z]*"
+                required>
+        </td>
+    </tr>
+    <tr>
+        <td class="no-padding">
+            <input type="password" name="password" placeholder="Пароль" autocomplete="off" required minlength="6">
+        </td>
+    </tr>
+    <tr>
+        <td class="no-padding">
+            <select name="role" required>
+                <option value="">Выберите роль</option>
+                <option value="merchandiser">Товаровед</option>
+                <option value="pharmacist">Фармацевт</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0;">
+            <input type="submit" value="Подтвердить">
+        </td>
+    </tr>
+</form>
+{% endblock %}

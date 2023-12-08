@@ -1,0 +1,42 @@
+{% extends "base_for_search.html" %}
+{% block title %}Состав заказов{% endblock %}
+{% block name_of_search %}Показать состав заказов за конкретную дату{% endblock %}
+
+{% block form %}
+<form action="{{ url_for('queries_app.show_order_by_date') }}" method="POST">
+    <tr>
+        <td class="no-padding">
+            <input type="date" name="conclusion_date" placeholder="Дата" autocomplete="off" required minlength="3">
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0;">
+            <input type="submit" value="Найти">
+        </td>
+    </tr>
+</form>
+{% endblock %}
+
+{% block table_header %}
+<tr>
+    <th>Дата заказа</th>
+    <th>Поставщик</th>
+    <th>Код препарата</th>
+    <th>Название препарата</th>
+    <th>Количество</th>
+    <th>Цена за единицу</th>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+{% for item in result %}
+<tr>
+    <td>{{ item['conclusion_date'] }}</td>
+    <td>{{ item['sup_name'] }}</td>
+    <td>{{ item['med_code'] }}</td>
+    <td>{{ item['med_name'] }}</td>
+    <td>{{ item['amount'] }} шт.</td>
+    <td>{{ item['price'] }}₽</td>
+</tr>
+{% endfor %}
+{% endblock %}

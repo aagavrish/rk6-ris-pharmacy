@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/images/icon.svg" type="image/x-icon">
+    <title>Выполнение запроса</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="label_page">
+                Выполнение запроса
+            </div>
+            <div class="container-centered">
+                <div class="mytable">
+                    <table>
+                        <tbody>
+                            {% if session['role'] == 'pharmacist' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.search_med_by_name') }}" method="GET">
+                                        <input type="submit" value="Поиск препараторов по названию">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.search_med_by_country') }}" method="GET">
+                                        <input type="submit" value="Поиск препаратов по стране-производителю">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.search_med_by_group') }}" method="GET">
+                                        <input type="submit" value="Поиск препараторов по коду-классификатору">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if session['role'] == 'merchandiser' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.search_supplier_by_city') }}" method="GET">
+                                        <input type="submit" value="Просмотр поставщиков по городу">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.show_order_by_date') }}" method="GET">
+                                        <input type="submit" value="Показать состав заказов за конкретную дату">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.show_med_balance_by_group') }}" method="GET">
+                                        <input type="submit"
+                                            value="Просмотр остатков препараторов на складе по коду-классификатору">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% if session['role'] == 'manager' %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.add_new_internal_user') }}" method="GET">
+                                        <input type="submit" value="Добавление внутренних пользователей">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('queries_app.show_rating_by_orders_count') }}"
+                                        method="GET">
+                                        <input type="submit" value="Рейтинг препараторов по количеству заказов в месяц">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td class="no-padding">
+                                    <form action="{{ url_for('index_handler') }}" method="GET">
+                                        <input type="submit" value="На главную">
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="message">
+                {% if category == 'okay' %}
+                <div class="okay">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% if category == 'error' %}
+                <div class="error">
+                    {{ message }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </main>
+
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/js/pageEventHandlers.js"></script>
+
+</html>

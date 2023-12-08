@@ -1,0 +1,44 @@
+{% extends "base_for_search.html" %}
+{% block title %}Поиск препаратов{% endblock %}
+{% block name_of_search %}Поиск препараторов по названию{% endblock %}
+
+{% block form %}
+<form action="{{ url_for('queries_app.search_med_by_name') }}" method="POST">
+    <tr>
+        <td class="no-padding">
+            <input type="text" name="med_name" placeholder="Название" autocomplete="off" required minlength="3">
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0;">
+            <input type="submit" value="Найти">
+        </td>
+    </tr>
+</form>
+{% endblock %}
+
+{% block table_header %}
+<tr>
+    <th>Код</th>
+    <th>Название</th>
+    <th>Код-классификатор</th>
+    <th>Компания производитель</th>
+    <th>Страна производства</th>
+    <th>Количество в наличии</th>
+    <th>Цена за единицу</th>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+{% for item in result %}
+<tr>
+    <td>{{ item['med_code'] }}</td>
+    <td>{{ item['med_name'] }}</td>
+    <td>{{ item['med_group'] }}</td>
+    <td>{{ item['med_company'] }}</td>
+    <td>{{ item['med_country'] }}</td>
+    <td>{{ item['amount'] }} шт.</td>
+    <td>{{ item['cost'] }}₽</td>
+</tr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% block header %}
+<header>
+    <img src="/static/images/logo.svg" alt="Крестик" class="cross">
+    <div class="options_containter">
+        {% if session['role'] == 'director' or session['role'] == 'manager' %}
+        <a href="{{ url_for('reports_app.reports_index') }}">Работа с отчетами</a>
+        {% endif %}
+        {% if session['role'] == 'pharmacist' or session['role'] == 'merchandiser' or session['role'] == 'manager'
+        %}
+        <a href="{{ url_for('queries_app.queries_index') }}">Выполнение запроса</a>
+        {% endif %}
+        {% if session['role'] == 'external' %}
+        <a href="{{ url_for('basket_app.basket_index') }}">Ассортимент</a>
+        {% endif %}
+        {% if session['is_auth'] %}
+        <a href="{{ url_for('index_handler') }}">Главная страница</a>
+        <a href="{{ url_for('access_app.logout_handler') }}">Выход</a>
+        {% endif %}
+        {% if not session['is_auth'] %}
+        <a href="{{ url_for('access_app.access_index') }}">Авторизация</a>
+        {% endif %}
+    </div>
+</header>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base_for_search.html" %}
+{% block title %}Остаток на складе{% endblock %}
+{% block name_of_search %}Просмотр остатков препараторов на складе по коду-классификатору{% endblock %}
+
+{% block form %}
+<form action="{{ url_for('queries_app.show_med_balance_by_group') }}" method="POST">
+    <tr>
+        <td class="no-padding">
+            <input type="text" name="med_group" placeholder="Код-классификатор" autocomplete="off" required
+                minlength="3">
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 0;">
+            <input type="submit" value="Найти">
+        </td>
+    </tr>
+</form>
+{% endblock %}
+
+{% block table_header %}
+<tr>
+    <th>Код препарата</th>
+    <th>Код-классификатор</th>
+    <th>Количество</th>
+    <th>Цена за единицу</th>
+    <th>Дата обновления</th>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+{% for item in result %}
+<tr>
+    <td>{{ item['med_ID'] }}</td>
+    <td>{{ item['med_group'] }}</td>
+    <td>{{ item['amount'] }} шт.</td>
+    <td>{{ item['cost'] }}₽</td>
+    <td>{{ item['update_date'] }}</td>
+</tr>
+{% endfor %}
+{% endblock %}

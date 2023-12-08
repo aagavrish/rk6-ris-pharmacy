@@ -1,0 +1,30 @@
+{
+    "pharmacist": [
+        "search_med_by_name",
+        "search_med_by_country",
+        "search_med_by_group"
+    ],
+    "merchandiser": [
+        "search_supplier_by_city",
+        "show_order_by_date",
+        "show_med_balance_by_group"
+    ],
+    "manager": [
+        "add_new_internal_user",
+        "show_rating_by_orders_count",
+        "reports_index",
+        "view_report",
+        "create_report"
+    ],
+    "director": [
+        "reports_index",
+        "view_report"
+    ],
+    "external": [
+        "basket_index",
+        "show_basket_handler",
+        "delete_all_handler",
+        "delete_current_handler",
+        "create_order_handler"
+    ]
+}

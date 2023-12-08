@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/static/images/icon.svg" type="image/x-icon">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            <div class="label_page">
+                {% block name_of_search %}{% endblock %}
+            </div>
+            <div class="container-centered">
+                <div class="mytable">
+                    <table>
+                        <tbody>
+                            {% block form %}{% endblock %}
+                            <td style="padding: 0;">
+                                <form action="{{ url_for('queries_app.queries_index') }}">
+                                    <input type="submit" value="Вернуться к выбору">
+                                </form>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="message">
+                {% if category == 'okay' %}
+                <div class="okay">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% if category == 'error' %}
+                <div class="error">
+                    {{ message }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        {% if result %}
+        <div class="sql-results">
+            <div class="label_page">
+                Результаты запроса
+            </div>
+            <div class="mytable-for-results">
+                <table>
+                    <thead>
+                        {% block table_header %}{% endblock %}
+                    <tbody>
+                        {% block table_body %}{% endblock %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="no-padding">
+                                <input type="submit" value="Вернуться к вводу"
+                                    onclick="document.querySelector('.container').scrollIntoView({ behavior: 'smooth' })">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/js/pageEventHandlers.js"></script>
+
+</html>
