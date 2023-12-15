@@ -2,6 +2,9 @@
 {% block title %}Остаток на складе{% endblock %}
 {% block name_of_search %}Просмотр остатков препараторов на складе по коду-классификатору{% endblock %}
 
+{% block results_name %}Информация об остатках препаратов на складе, принадлежащих группе {{ result[0]['med_group'] }}{%
+endblock %}
+
 {% block form %}
 <form action="{{ url_for('queries_app.show_med_balance_by_group') }}" method="POST">
     <tr>
@@ -21,7 +24,6 @@
 {% block table_header %}
 <tr>
     <th>Код препарата</th>
-    <th>Код-классификатор</th>
     <th>Количество</th>
     <th>Цена за единицу</th>
     <th>Дата обновления</th>
@@ -32,7 +34,6 @@
 {% for item in result %}
 <tr>
     <td>{{ item['med_ID'] }}</td>
-    <td>{{ item['med_group'] }}</td>
     <td>{{ item['amount'] }} шт.</td>
     <td>{{ item['cost'] }}₽</td>
     <td>{{ item['update_date'] }}</td>

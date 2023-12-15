@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, current_app, flash, session, redirect, url_for
+from flask import (Blueprint, render_template, request,
+                   current_app, flash, session, redirect, url_for)
 from database.sql_provider import SQLProvider
 from database.operations import select_from_db, insert_into_db
 
@@ -26,24 +27,21 @@ def basket_index():
         cost = request.form['cost']
         quantity = int(request.form['quantity'])
 
-        # Получаем количество товара на складе
         stock_amount = next((item['amount']
                             for item in result if item['med_ID'] == med_id), 0)
 
-        # Проверяем, есть ли уже такой товар в корзине
         for item in session['basket']:
             if item['med_ID'] == med_id and item['cost'] == cost:
-                # Если есть, проверяем, не превышает ли новое количество товара на складе
                 if item['quantity'] + quantity > stock_amount:
                     flash(
-                        'Количество товара в корзине превысит доступное количество на складе', 'error')
+                        'Количество товара в корзине \
+                            превысит доступное количество на складе',
+                        'error')
                     break
-                # Если нет, увеличиваем его количество
                 item['quantity'] += quantity
                 flash('Добавлено в корзину', 'okay')
                 break
         else:
-            # Если нет, добавляем новый товар в корзину
             session['basket'].append(
                 {'med_name': request.form['med_name'],
                     'quantity': quantity,
@@ -53,7 +51,9 @@ def basket_index():
             flash('Добавлено в корзину', 'okay')
         session.modified = True
 
-    return render_template('basket_index.html', count=len(session['basket']), result=result)
+    return render_template('basket_index.html',
+                           count=len(session['basket']),
+                           result=result)
 
 
 @basket_app.route('/show', methods=['GET'])

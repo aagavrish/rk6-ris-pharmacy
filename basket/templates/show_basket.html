@@ -24,7 +24,7 @@
                             <tr>
                                 <th>Препарат</th>
                                 <th>Производитель</th>
-                                <th>Цена</th>
+                                <th>Цена за единицу</th>
                                 <th>Количество</th>
                                 <th>Удаление</th>
                             </tr>
@@ -39,10 +39,10 @@
                                     {{ row['med_company'] }}
                                 </td>
                                 <td>
-                                    {{ row['cost'] }}
+                                    {{ row['cost'] }}₽
                                 </td>
                                 <td>
-                                    {{ row['quantity'] }}
+                                    {{ row['quantity'] }} шт.
                                 </td>
                                 <form action="{{ url_for('basket_app.delete_current_handler') }}" method="POST">
                                     <td class="no-padding">

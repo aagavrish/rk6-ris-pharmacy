@@ -1,21 +1,38 @@
-from flask import Blueprint, render_template, request, current_app, flash, session
+from typing import Tuple, Any
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    current_app,
+    flash,
+    session
+)
+
 from database.sql_provider import SQLProvider
 from database.operations import select_from_db, insert_into_db
 
 from decorators.routes import login_required, role_required
 
-queries_app = Blueprint('queries_app', __name__, template_folder='templates')
-sql_provider = SQLProvider('queries/sql')
+queries_app: Blueprint = Blueprint(
+    'queries_app', __name__, template_folder='templates')
+sql_provider: SQLProvider = SQLProvider('queries/sql')
 
 
-def query_execution(key, sql_statement_name):
-    data = request.form.get(key)
+def query_execution(key: str, sql_statement_name: str) -> Tuple[bool, Any]:
+    """
+    Выполняет SQL-запрос и возвращает результат.
+
+    :param key: ключ для получения данных из формы
+    :param sql_statement_name: имя SQL-запроса
+    :return: кортеж, содержащий флаг успешности выполнения и результат или сообщение об ошибке
+    """
+    data: str = request.form.get(key)
 
     if not data:
         return False, "Данные не введены"
 
-    sql_statement = sql_provider.get(sql_statement_name, {key: data})
-    result = select_from_db(
+    sql_statement: str = sql_provider.get(sql_statement_name, {key: data})
+    result: Any = select_from_db(
         current_app.config['MYSQL_DB_CONFIG'], sql_statement)
 
     if not result:
@@ -27,6 +44,10 @@ def query_execution(key, sql_statement_name):
 @queries_app.route('/', methods=['GET'])
 @login_required(session)
 def queries_index():
+    """
+    Обрабатывает главную страницу запросов.
+    Возвращает HTML-шаблон для этой страницы.
+    """
     return render_template('queries_index.html')
 
 
@@ -98,7 +119,8 @@ def search_supplier_by_city():
             'city', 'search_supplier_by_city.sql')
 
         if check_flag:
-            return render_template('search_supplier_by_city.html', result=result)
+            return render_template('search_supplier_by_city.html',
+                                   result=result)
         else:
             flash(result, 'error')
             return render_template('search_supplier_by_city.html')
@@ -162,8 +184,10 @@ def add_new_internal_user():
             flash('Пользователь уже существует', 'error')
             return render_template('add_new_internal_user.html')
         else:
-            insert_into_db(current_app.config['MYSQL_DB_CONFIG'], sql_provider.get(
-                'insert_new_internal_user.sql', {'username': username, 'password': password, 'role': role}))
+            insert_into_db(current_app.config['MYSQL_DB_CONFIG'],
+                           sql_provider.get(
+                'insert_new_internal_user.sql',
+                {'username': username, 'password': password, 'role': role}))
             flash('Пользователь успешно добавлен', 'okay')
             return render_template('add_new_internal_user.html')
 
@@ -184,7 +208,8 @@ def show_rating_by_orders_count():
             current_app.config['MYSQL_DB_CONFIG'], sql_statement)
 
         if result:
-            return render_template('show_rating_ord_by_month.html', result=result)
+            return render_template('show_rating_ord_by_month.html',
+                                   result=result)
         else:
             flash('Нет результатов', 'error')
             return render_template('show_rating_ord_by_month.html')

@@ -2,6 +2,8 @@
 {% block title %}Просмотр поставщиков{% endblock %}
 {% block name_of_search %}Просмотр поставщиков по городу{% endblock %}
 
+{% block results_name %}Информация о действующих поставщиках в городе {{ result[0]['city'] }}{% endblock %}
+
 {% block form %}
 <form action="{{ url_for('queries_app.search_supplier_by_city') }}" method="POST">
     <tr>
@@ -21,7 +23,6 @@
 <tr>
     <th>Код поставщика</th>
     <th>Название</th>
-    <th>Город</th>
     <th>Дата заключения контракта</th>
 </tr>
 {% endblock %}
@@ -31,7 +32,6 @@
 <tr>
     <td>{{ item['sup_code'] }}</td>
     <td>{{ item['sup_name'] }}</td>
-    <td>{{ item['city'] }}</td>
     <td>{{ item['contract_date'] }}</td>
 </tr>
 {% endfor %}

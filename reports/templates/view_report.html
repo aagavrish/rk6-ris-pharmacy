@@ -62,18 +62,18 @@
             {% endif %}
             {% endwith %}
         </div>
-        {% if result%}
+        {% if result %}
         <div class="sql-results">
             <div class="label_page">
-                Результаты запроса
+                {% set months = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь",
+                "октябрь", "ноябрь", "декабрь"] %}
+                {{ name }} за {{ months[result[0]['rep_month'] - 1] }} {{ result[0]['rep_year'] }}г.
             </div>
             {% if rep_id == '1' %}
             <div class="mytable-for-results">
                 <table>
                     <thead>
                         <tr>
-                            <th>Год</th>
-                            <th>Месяц</th>
                             <th>Поставщик</th>
                             <th>Код медикамента</th>
                             <th>Количество</th>
@@ -82,8 +82,6 @@
                     <tbody>
                         {% for item in result %}
                         <tr>
-                            <td>{{ item['rep_year'] }}</td>
-                            <td>{{ item['rep_month'] }}</td>
                             <td>{{ item['sup_name'] }}</td>
                             <td>{{ item['med_ID'] }}</td>
                             <td>{{ item['amount'] }} шт.</td>
@@ -113,8 +111,6 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Год</th>
-                            <th>Месяц</th>
                             <th>Код медикамента</th>
                             <th>Производитель</th>
                             <th>Количество</th>
@@ -123,8 +119,6 @@
                     <tbody>
                         {% for item in result %}
                         <tr>
-                            <td>{{ item['rep_year'] }}</td>
-                            <td>{{ item['rep_month'] }}</td>
                             <td>{{ item['med_name'] }}</td>
                             <td>{{ item['med_company'] }}</td>
                             <td>{{ item['amount'] }} шт.</td>

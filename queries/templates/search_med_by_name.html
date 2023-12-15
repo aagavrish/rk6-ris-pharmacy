@@ -2,6 +2,8 @@
 {% block title %}Поиск препаратов{% endblock %}
 {% block name_of_search %}Поиск препараторов по названию{% endblock %}
 
+{% block results_name %}Информация о препаратах с названием {{ result[0]['med_name'] }}{% endblock %}
+
 {% block form %}
 <form action="{{ url_for('queries_app.search_med_by_name') }}" method="POST">
     <tr>
@@ -20,7 +22,6 @@
 {% block table_header %}
 <tr>
     <th>Код</th>
-    <th>Название</th>
     <th>Код-классификатор</th>
     <th>Компания производитель</th>
     <th>Страна производства</th>
@@ -33,7 +34,6 @@
 {% for item in result %}
 <tr>
     <td>{{ item['med_code'] }}</td>
-    <td>{{ item['med_name'] }}</td>
     <td>{{ item['med_group'] }}</td>
     <td>{{ item['med_company'] }}</td>
     <td>{{ item['med_country'] }}</td>

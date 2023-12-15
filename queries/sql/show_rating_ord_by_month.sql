@@ -6,7 +6,9 @@ SELECT
     med_country,
     SUM(amount) as sum,
     price,
-    MAX(conclusion_date) as conclusion_date
+    MAX(conclusion_date) as conclusion_date,
+    YEAR(conclusion_date) as year,
+    MONTH(conclusion_date) as month
 FROM
     orders
     JOIN order_list USING(or_id)

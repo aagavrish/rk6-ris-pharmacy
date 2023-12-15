@@ -10,7 +10,7 @@
         <a href="{{ url_for('queries_app.queries_index') }}">Выполнение запроса</a>
         {% endif %}
         {% if session['role'] == 'external' %}
-        <a href="{{ url_for('basket_app.basket_index') }}">Ассортимент</a>
+        <a href="{{ url_for('basket_app.basket_index') }}">Формирование заказа</a>
         {% endif %}
         {% if session['is_auth'] %}
         <a href="{{ url_for('index_handler') }}">Главная страница</a>

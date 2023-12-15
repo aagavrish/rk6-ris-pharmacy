@@ -2,6 +2,8 @@
 {% block title %}Поиск препаратов{% endblock %}
 {% block name_of_search %}Поиск препараторов по коду-классификатору{% endblock %}
 
+{% block results_name %}Информация о препаратах, принадлежащих группе {{ result[0]['med_group'] }}{% endblock %}
+
 {% block form %}
 <form action="{{ url_for('queries_app.search_med_by_group') }}" method="POST">
     <tr>
@@ -22,7 +24,6 @@
 <tr>
     <th>Код</th>
     <th>Название</th>
-    <th>Код-классификатор</th>
     <th>Компания производитель</th>
     <th>Страна производства</th>
     <th>Количество в наличии</th>
@@ -35,7 +36,6 @@
 <tr>
     <td>{{ item['med_code'] }}</td>
     <td>{{ item['med_name'] }}</td>
-    <td>{{ item['med_group'] }}</td>
     <td>{{ item['med_company'] }}</td>
     <td>{{ item['med_country'] }}</td>
     <td>{{ item['amount'] }} шт.</td>

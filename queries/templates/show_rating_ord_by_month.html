@@ -2,6 +2,12 @@
 {% block title %}Рейтинг{% endblock %}
 {% block name_of_search %}Рейтинг препараторов по количеству заказов в месяц{% endblock %}
 
+{% block results_name %}
+{% set months = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
+"ноябрь", "декабрь"] %}
+Рейтинг заказов препараторов за {{ months[result[0]['month'] - 1] }} {{result[0]['year'] }}г.
+{% endblock %}
+
 {% block form %}
 <form action="{{ url_for('queries_app.show_rating_by_orders_count') }}" method="POST">
     <tr>
@@ -10,7 +16,8 @@
         </td>
     <tr>
         <td class="no-padding">
-            <input type="number" name="limit" placeholder="Количество строк" autocomplete="off" min="1" value="1" required>
+            <input type="number" name="limit" placeholder="Количество строк" autocomplete="off" min="1" value="5"
+                required>
         </td>
     </tr>
     <tr>

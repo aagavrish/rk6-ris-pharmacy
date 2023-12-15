@@ -1,12 +1,18 @@
 {% extends "base_for_search.html" %}
 {% block title %}Состав заказов{% endblock %}
-{% block name_of_search %}Показать состав заказов за конкретную дату{% endblock %}
+{% block name_of_search %}Показать состав заказов за конкретный месяц{% endblock %}
+
+{% block results_name %}
+{% set months = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
+"ноябрь", "декабрь"] %}
+Состав заказов за {{ months[result[0]['month'] - 1] }} {{result[0]['year'] }}г.
+{% endblock %}
 
 {% block form %}
 <form action="{{ url_for('queries_app.show_order_by_date') }}" method="POST">
     <tr>
         <td class="no-padding">
-            <input type="date" name="conclusion_date" placeholder="Дата" autocomplete="off" required minlength="3">
+            <input type="month" name="conclusion_date" placeholder="Дата" autocomplete="off" required minlength="3">
         </td>
     </tr>
     <tr>
